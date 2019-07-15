@@ -1,0 +1,36 @@
+#docker image
+image: python:latest
+
+#specifiy the stages of the pipeline
+stages:
+  - test
+  - deploy
+
+#specify the jobs that should be running
+pep8_compliance:
+  stage: test
+  before_script:
+    - pip install pycodestyle
+  script:
+    - pycodestyle --max-line-length=120 .
+
+
+#unit_tests:
+#  stage: test
+#  script:
+#    - pip install -r requirements.txt
+#    - cd advanced_functionality/test_driven_development/
+#    - python -m pytest
+
+    
+deployment:
+  stage: deploy
+  image: docker:stable
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+  script:
+    - docker build -t hadoop_py .
+  only:
+    - master
