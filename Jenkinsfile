@@ -8,9 +8,8 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'pip install -r requirements.txt'
-                sh 'pycodestyle --max-line-length=120 .'
-            }
+                sh 'python --version'
+                 }
         }
     }
 }
